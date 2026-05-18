@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beebird Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --amber: #EF9F27;
+    --amber-dim: #BA7517;
+    --amber-dark: #633806;
+    --amber-faint: #1a120400;
+    --bg: #0d0d0b;
+    --bg-card: #131310;
+    --bg-card2: #1a1a16;
+    --border: rgba(255,255,255,0.06);
+    --border-amber: rgba(239,159,39,0.25);
+    --text: #f0ede4;
+    --text-muted: #888880;
+    --text-dim: #555550;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--mono);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── GRID OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(239,159,39,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(239,159,39,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(13,13,11,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .logo-bee {
+    width: 28px;
+    height: 28px;
+    background: var(--amber);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--amber); }
+
+  .nav-cta {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--border-amber);
+    color: var(--amber);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-cta:hover {
+    background: var(--amber);
+    color: #0d0d0b;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 160px 2.5rem 100px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 2rem;
+    padding: 6px 14px;
+    border: 1px solid var(--border-amber);
+    border-radius: 20px;
+  }
+
+  .hero-tag span.dot {
+    width: 6px;
+    height: 6px;
+    background: var(--amber);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero h1 {
+    font-family: var(--sans);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    max-width: 780px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--amber);
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.75rem;
+    background: var(--amber);
+    color: #0d0d0b;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover { background: #FAC775; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--border-amber);
+    color: var(--amber);
+  }
+
+  /* ─── STAT BAR ─── */
+  .stat-bar {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+
+  .stat-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-item {
+    padding: 2rem 0;
+    border-right: 1px solid var(--border);
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+
+  .stat-item:first-child { padding-left: 0; }
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: var(--sans);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--amber);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ─── SECTION ─── */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 2.5rem;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--sans);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .section-body {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.9;
+    margin-bottom: 3rem;
+  }
+
+  /* ─── PROJECTS ─── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .project-card {
+    background: var(--bg-card);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .project-card:hover { background: var(--bg-card2); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .project-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-amber);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .project-lang {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+
+  .project-card h3 {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .project-card p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .project-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .project-card-footer a {
+    color: var(--amber);
+    text-decoration: none;
+    font-size: 0.7rem;
+    transition: opacity 0.2s;
+  }
+
+  .project-card-footer a:hover { opacity: 0.7; }
+
+  /* ─── TECH BELT ─── */
+  .tech-belt {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 0;
+    overflow: hidden;
+    background: var(--bg-card);
+  }
+
+  .tech-scroll {
+    display: flex;
+    gap: 3rem;
+    animation: scroll 20s linear infinite;
+    width: max-content;
+  }
+
+  .tech-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .tech-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--amber);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── ABOUT ─── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-visual {
+    position: relative;
+    height: 320px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .circuit-art {
+    opacity: 0.4;
+  }
+
+  .about-content .section-body {
+    margin-bottom: 1.5rem;
+  }
+
+  .about-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .about-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .about-list li::before {
+    content: '›';
+    color: var(--amber);
+    font-weight: 600;
+    line-height: 1.6;
+    flex-shrink: 0;
+  }
+
+  /* ─── COMING SOON ─── */
+  .coming-card {
+    border: 1px solid var(--border-amber);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(239,159,39,0.04), transparent);
+    padding: 3rem;
+    text-align: center;
+  }
+
+  .coming-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 1rem auto 2rem;
+    line-height: 1.8;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--amber); }
+
+  .footer-copy {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .hero { padding: 120px 1.25rem 60px; }
+    section { padding: 4rem 1.25rem; }
+    .stat-bar-inner { grid-template-columns: repeat(2, 1fr); }
+    .stat-item { border-bottom: 1px solid var(--border); }
+    .about-grid { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div style="width:28px;height:28px;border-radius:6px;border:1px solid var(--border-amber);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--amber);letter-spacing:0;">BL</div>
+    Beebird Labs
+  </a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#coming">Coming Soon</a></li>
+  </ul>
+  <a href="https://github.com/Beebird-Labs" class="nav-cta" target="_blank" rel="noopener">GitHub ↗</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">
+    <span class="dot"></span>
+    Open-source electronics lab
+  </div>
+  <h1>Hacking <em>JDM</em> electronics, one bus at a time.</h1>
+  <p class="hero-sub">
+    Beebird Labs builds open tooling for Toyota BEAN/IoT systems — from Python bus decoders to ESP MCU-based readers. Mostly JDM, with occasional distractions.
+  </p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn-primary">View Projects →</a>
+    <a href="https://github.com/Beebird-Labs" class="btn-secondary" target="_blank" rel="noopener">GitHub →</a>
+  </div>
+</div>
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-item">
+      <span class="stat-num">6</span>
+      <span class="stat-label">Public Repositories</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">C</span>
+      <span class="stat-label">Primary Language</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">BEAN</span>
+      <span class="stat-label">Toyota Bus Protocol</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">ESP</span>
+      <span class="stat-label">MCU / Arduino Core</span>
+    </div>
+  </div>
+</div>
+
+<!-- TECH BELT -->
+<div class="tech-belt">
+  <div class="tech-scroll">
+    <span class="tech-item"><span class="tech-dot"></span>Toyota BEAN Protocol</span>
+    <span class="tech-item"><span class="tech-dot"></span>ESP MCU</span>
+    <span class="tech-item"><span class="tech-dot"></span>Arduino UNO R4</span>
+    <span class="tech-item"><span class="tech-dot"></span>ESPNow</span>
+    <span class="tech-item"><span class="tech-dot"></span>C / Python</span>
+    <span class="tech-item"><span class="tech-dot"></span>VSS Simulation</span>
+    <span class="tech-item"><span class="tech-dot"></span>Automotive IoT</span>
+    <span class="tech-item"><span class="tech-dot"></span>JDM Electronics</span>
+    <span class="tech-item"><span class="tech-dot"></span>GPL-3.0 Open Source</span>
+    <!-- duplicate for seamless loop -->
+    <span class="tech-item"><span class="tech-dot"></span>Toyota BEAN Protocol</span>
+    <span class="tech-item"><span class="tech-dot"></span>ESP MCU</span>
+    <span class="tech-item"><span class="tech-dot"></span>Arduino UNO R4</span>
+    <span class="tech-item"><span class="tech-dot"></span>ESPNow</span>
+    <span class="tech-item"><span class="tech-dot"></span>C / Python</span>
+    <span class="tech-item"><span class="tech-dot"></span>VSS Simulation</span>
+    <span class="tech-item"><span class="tech-dot"></span>Automotive IoT</span>
+    <span class="tech-item"><span class="tech-dot"></span>JDM Electronics</span>
+    <span class="tech-item"><span class="tech-dot"></span>GPL-3.0 Open Source</span>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">// public_now</p>
+  <h2 class="section-title">Open-source projects</h2>
+  <p class="section-body">
+    Tools, readers, and simulators for Toyota BEAN bus systems and IoT tinkering. All GPL-3.0 licensed and available on GitHub.
+  </p>
+
+  <div class="projects-grid">
+
+    <a href="https://github.com/Beebird-Labs/toyota-bean" class="project-card" target="_blank" rel="noopener">
+      <div class="project-card-top">
+        <div class="project-icon">🚗</div>
+        <span class="project-lang">Python</span>
+      </div>
+      <h3>toyota-bean</h3>
+      <p>Python tools and reference notes for working with Toyota BEAN bus messages. The foundation of the whole ecosystem.</p>
+      <div class="project-card-footer">
+        <span>⭐ 1 · 🍴 1</span>
+        <a href="https://github.com/Beebird-Labs/toyota-bean" target="_blank" rel="noopener">View repo →</a>
+      </div>
+    </a>
+
+    <a href="https://github.com/Beebird-Labs/ESP8266-BEAN-Reader" class="project-card" target="_blank" rel="noopener">
+      <div class="project-card-top">
+        <div class="project-icon">📡</div>
+        <span class="project-lang">C</span>
+      </div>
+      <h3>ESP8266 BEAN Reader</h3>
+      <p>An ESP8266-based BEAN bus reader that captures specific messages and re-broadcasts them wirelessly via ESPNow.</p>
+      <div class="project-card-footer">
+        <span>GPL-3.0</span>
+        <a href="https://github.com/Beebird-Labs/ESP8266-BEAN-Reader" target="_blank" rel="noopener">View repo →</a>
+      </div>
+    </a>
+
+    <a href="https://github.com/Beebird-Labs/ESP8266-Speedometer-Reader" class="project-card" target="_blank" rel="noopener">
+      <div class="project-card-top">
+        <div class="project-icon">🏎️</div>
+        <span class="project-lang">C</span>
+      </div>
+      <h3>ESP8266 Speedometer Reader</h3>
+      <p>Reads speedometer data from Toyota vehicles and transmits speed readings out over ESPNow for downstream processing.</p>
+      <div class="project-card-footer">
+        <span>GPL-3.0</span>
+        <a href="https://github.com/Beebird-Labs/ESP8266-Speedometer-Reader" target="_blank" rel="noopener">View repo →</a>
+      </div>
+    </a>
+
+    <a href="https://github.com/Beebird-Labs/Arduino-UNO-R4-VSS-Simulator" class="project-card" target="_blank" rel="noopener">
+      <div class="project-card-top">
+        <div class="project-icon">⚡</div>
+        <span class="project-lang">C</span>
+      </div>
+      <h3>Arduino UNO R4 VSS Simulator</h3>
+      <p>A vehicle speed signal simulator built on the Arduino UNO R4. Designed for bench-testing speedometer readers without a real car.</p>
+      <div class="project-card-footer">
+        <span>GPL-3.0</span>
+        <a href="https://github.com/Beebird-Labs/Arduino-UNO-R4-VSS-Simulator" target="_blank" rel="noopener">View repo →</a>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual">
+      <svg class="circuit-art" width="280" height="220" viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- circuit board trace art -->
+        <rect x="20" y="60" width="80" height="50" rx="4" stroke="#EF9F27" stroke-width="1"/>
+        <rect x="140" y="40" width="60" height="40" rx="4" stroke="#EF9F27" stroke-width="1"/>
+        <rect x="140" y="130" width="80" height="50" rx="4" stroke="#EF9F27" stroke-width="1"/>
+        <rect x="30" y="160" width="50" height="30" rx="4" stroke="#EF9F27" stroke-width="0.5" stroke-dasharray="3 3"/>
+
+        <!-- traces -->
+        <line x1="100" y1="85" x2="140" y2="60" stroke="#EF9F27" stroke-width="1"/>
+        <line x1="140" y1="80" x2="140" y2="130" stroke="#EF9F27" stroke-width="1"/>
+        <line x1="100" y1="95" x2="130" y2="95" stroke="#EF9F27" stroke-width="0.75"/>
+        <line x1="130" y1="95" x2="130" y2="155" stroke="#EF9F27" stroke-width="0.75"/>
+        <line x1="130" y1="155" x2="140" y2="155" stroke="#EF9F27" stroke-width="0.75"/>
+        <line x1="55" y1="110" x2="55" y2="160" stroke="#EF9F27" stroke-width="0.75"/>
+        <line x1="220" y1="80" x2="250" y2="80" stroke="#EF9F27" stroke-width="0.5" stroke-dasharray="3 3"/>
+        <line x1="220" y1="155" x2="255" y2="155" stroke="#EF9F27" stroke-width="0.5" stroke-dasharray="3 3"/>
+
+        <!-- vias -->
+        <circle cx="130" cy="95" r="3" fill="none" stroke="#EF9F27" stroke-width="1"/>
+        <circle cx="55" cy="155" r="3" fill="none" stroke="#EF9F27" stroke-width="1"/>
+        <circle cx="140" cy="80" r="3" fill="none" stroke="#EF9F27" stroke-width="1"/>
+
+        <!-- component pins -->
+        <line x1="30" y1="80" x2="20" y2="80" stroke="#EF9F27" stroke-width="0.75"/>
+        <line x1="30" y1="90" x2="20" y2="90" stroke="#EF9F27" stroke-width="0.75"/>
+        <line x1="30" y1="100" x2="20" y2="100" stroke="#EF9F27" stroke-width="0.75"/>
+        <line x1="160" y1="40" x2="160" y2="30" stroke="#EF9F27" stroke-width="0.75"/>
+        <line x1="175" y1="40" x2="175" y2="30" stroke="#EF9F27" stroke-width="0.75"/>
+        <line x1="190" y1="40" x2="190" y2="30" stroke="#EF9F27" stroke-width="0.75"/>
+
+        <!-- IC marking -->
+        <text x="42" y="90" fill="#EF9F27" font-size="8" font-family="monospace">IC1</text>
+        <text x="155" y="65" fill="#EF9F27" font-size="7" font-family="monospace">MCU</text>
+        <text x="150" y="160" fill="#EF9F27" font-size="7" font-family="monospace">BEAN</text>
+      </svg>
+    </div>
+
+    <div class="about-content">
+      <p class="section-label">// about</p>
+      <h2 class="section-title">Built by tinkerers,<br>for tinkerers.</h2>
+      <p class="section-body">
+        Beebird Labs is an independent electronics lab focused on JDM vehicle systems and IoT tooling. We reverse-engineer, document, and build open-source tools for Toyota platforms — starting with the BEAN bus.
+      </p>
+      <ul class="about-list">
+        <li>Python decoders for Toyota BEAN protocol messages</li>
+        <li>ESP MCU hardware readers with wireless ESPNow output</li>
+        <li>Arduino-based simulators for bench testing</li>
+        <li>Fully open-source under GPL-3.0</li>
+        <li>More tools and documentation in progress</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- COMING SOON -->
+<section id="coming">
+  <div class="coming-card">
+    <p class="section-label" style="text-align:center">// coming_soon</p>
+    <h2 class="section-title" style="text-align:center">More coming soon.</h2>
+    <p>More tools, documentation, and experiments are in progress. Follow along on GitHub to stay updated as new projects go public.</p>
+    <a href="https://github.com/Beebird-Labs" class="btn-primary" target="_blank" rel="noopener">Follow on GitHub →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-amber);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--amber);">BL</div>
+      Beebird Labs
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://github.com/Beebird-Labs" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://github.com/Beebird-Labs/toyota-bean" target="_blank" rel="noopener">Toyota BEAN</a></li>
+      <li><a href="https://github.com/orgs/Beebird-Labs/repositories" target="_blank" rel="noopener">All Repos</a></li>
+    </ul>
+    <span class="footer-copy">// jdm electronics &amp; iot tooling</span>
+  </div>
+</footer>
+
+</body>
+</html>
